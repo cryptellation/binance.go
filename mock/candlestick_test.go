@@ -8,68 +8,50 @@ import (
 	"github.com/cryptellation/models.go"
 )
 
-var tCS = []MockedCandleSticks{
-	{
-		"BTC-USDC", models.M1, []models.CandleStick{
-			{Time: time.Time{}, Open: 10, High: 10, Low: 10, Close: 10},
-			{Time: time.Time{}, Open: 15, High: 15, Low: 15, Close: 15}},
-	},
-	{
-		"ETH-USDC", models.M5, []models.CandleStick{
-			{Time: time.Time{}, Open: 20, High: 20, Low: 20, Close: 20},
-			{Time: time.Time{}, Open: 25, High: 25, Low: 25, Close: 25}},
-	},
-	{
-		"IOTA-USDC", models.M15, []models.CandleStick{
-			{Time: time.Unix(1257894000, 0), Open: 30, High: 30, Low: 30, Close: 30},
-			{Time: time.Unix(1257894900, 0), Open: 35, High: 35, Low: 35, Close: 35}},
-	},
-	{
-		"BTC-USDC", models.M5, []models.CandleStick{
-			{Time: time.Unix(1257894000, 0), Open: 30, High: 30, Low: 30, Close: 30},
-			{Time: time.Unix(1257894300, 0), Open: 35, High: 35, Low: 35, Close: 35}},
-	},
-}
-
 func TestMockedDo(t *testing.T) {
 	// Get new service
-	s := newMockedCandleStickService(tCS)
-
-	// Count candlesticks
-	var count int
-	for _, c := range tCS {
-		count += len(c.CandleSticks)
-	}
+	s := newCandleStickservice(TestCandleSticks)
 
 	// Do the service
 	cs, _ := s.Do(context.Background())
-	if len(cs) != count {
-		t.Error("There should be", count, "candlesticks")
+	if len(cs) != TestCandleSticksCount() {
+		t.Fatal("There should be", TestCandleSticksCount(), "candlesticks, but there is", len(cs))
 	}
 
 	// Test first case
-	for i, c := range tCS[0].CandleSticks {
+	for i, c := range TestCandleSticks[0].CandleSticks {
 		if c != cs[i] {
 			t.Error("Candlesticks", i, "don't correspond")
 		}
 	}
 
 	// Test second case
-	for i, c := range tCS[1].CandleSticks {
+	for i, c := range TestCandleSticks[1].CandleSticks {
 		if c != cs[i+2] {
 			t.Error("Candlesticks", i, "don't correspond")
 		}
 	}
 }
 
+func TestMockedDo_NoData(t *testing.T) {
+	// Get new service
+	s := newCandleStickservice(nil)
+
+	// Do the service
+	cs, _ := s.Do(context.Background())
+	if len(cs) != 0 {
+		t.Fatal("There should be 0 candlesticks, but there is", len(cs))
+	}
+}
+
 func TestMockedDo_DefaultLimit(t *testing.T) {
-	localTest := []MockedCandleSticks{{"BTC-USDC", models.M1, []models.CandleStick{}}}
+	localTest := []CandleSticks{{"BTC-USDC", models.M1, []models.CandleStick{}}}
 	for i := 0; i < DefaultCandleStickServiceLimit+100; i++ {
 		localTest[0].CandleSticks = append(localTest[0].CandleSticks, models.CandleStick{})
 	}
 
 	// Get new service
-	s := newMockedCandleStickService(localTest)
+	s := newCandleStickservice(localTest)
 
 	// Do the service
 	cs, _ := s.Do(context.Background())
@@ -80,7 +62,7 @@ func TestMockedDo_DefaultLimit(t *testing.T) {
 
 func TestMockedSymbolDo(t *testing.T) {
 	// Get new service
-	s := newMockedCandleStickService(tCS)
+	s := newCandleStickservice(TestCandleSticks)
 
 	// Do the service with symbol
 	cs, _ := s.Symbol("BTC-USDC").Do(context.Background())
@@ -89,7 +71,7 @@ func TestMockedSymbolDo(t *testing.T) {
 	}
 
 	// Test corresponding case
-	for i, c := range tCS[0].CandleSticks {
+	for i, c := range TestCandleSticks[0].CandleSticks {
 		if c != cs[i] {
 			t.Error("Candlesticks", i, "don't correspond")
 		}
@@ -98,7 +80,7 @@ func TestMockedSymbolDo(t *testing.T) {
 
 func TestMockedIntervalDo(t *testing.T) {
 	// Get new service
-	s := newMockedCandleStickService(tCS)
+	s := newCandleStickservice(TestCandleSticks)
 
 	// Do the service with period
 	cs, _ := s.Period(models.M5).Do(context.Background())
@@ -107,7 +89,7 @@ func TestMockedIntervalDo(t *testing.T) {
 	}
 
 	// Test corresponding case
-	for i, c := range tCS[1].CandleSticks {
+	for i, c := range TestCandleSticks[1].CandleSticks {
 		if c != cs[i] {
 			t.Error("Candlesticks", i, "don't correspond")
 		}
@@ -116,7 +98,7 @@ func TestMockedIntervalDo(t *testing.T) {
 
 func TestMockedEndTimeDo(t *testing.T) {
 	// Get new service
-	s := newMockedCandleStickService(tCS)
+	s := newCandleStickservice(TestCandleSticks)
 
 	// Do the service with endtime
 	cs, _ := s.EndTime(time.Unix(1257893900, 0)).Do(context.Background())
@@ -125,7 +107,7 @@ func TestMockedEndTimeDo(t *testing.T) {
 	}
 
 	// Test corresponding case
-	for i, c := range tCS[2].CandleSticks {
+	for i, c := range TestCandleSticks[2].CandleSticks {
 		if c != cs[i] {
 			t.Error("Candlesticks", i, "don't correspond: should be", c, "but is", cs[i])
 		}
@@ -134,7 +116,7 @@ func TestMockedEndTimeDo(t *testing.T) {
 
 func TestMockedLimitDo(t *testing.T) {
 	// Get new service
-	s := newMockedCandleStickService(tCS)
+	s := newCandleStickservice(TestCandleSticks)
 
 	// Do the service with limit
 	cs, _ := s.Limit(4).Do(context.Background())
@@ -144,13 +126,13 @@ func TestMockedLimitDo(t *testing.T) {
 }
 
 func TestMockedLimitDo_DefaultLimitTrespassed(t *testing.T) {
-	localTest := []MockedCandleSticks{{"BTC-USDC", models.M1, []models.CandleStick{}}}
+	localTest := []CandleSticks{{"BTC-USDC", models.M1, []models.CandleStick{}}}
 	for i := 0; i < DefaultCandleStickServiceLimit+100; i++ {
 		localTest[0].CandleSticks = append(localTest[0].CandleSticks, models.CandleStick{})
 	}
 
 	// Get new service
-	s := newMockedCandleStickService(localTest)
+	s := newCandleStickservice(localTest)
 
 	// Do the service with limit
 	cs, _ := s.Limit(2000).Do(context.Background())
@@ -161,7 +143,7 @@ func TestMockedLimitDo_DefaultLimitTrespassed(t *testing.T) {
 
 func TestMockedAllDo(t *testing.T) {
 	// Get new service
-	s := newMockedCandleStickService(tCS)
+	s := newCandleStickservice(TestCandleSticks)
 
 	// Do the service with limit
 	tm := time.Unix(1257894200, 0)
@@ -170,7 +152,7 @@ func TestMockedAllDo(t *testing.T) {
 		t.Error("There should be 1 candlesticks but there is", len(cs))
 	}
 
-	c := tCS[3].CandleSticks[1]
+	c := TestCandleSticks[3].CandleSticks[1]
 	if c != cs[0] {
 		t.Error("Candlestick don't correspond: should be", c, "but is", cs[0])
 	}
