@@ -1,4 +1,4 @@
-package interfaces
+package binance
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 )
 
 // Interface is an interface for service
-type Interface interface {
+type ServiceInterface interface {
 	NewCandleStickService() CandleStickServiceInterface
 }
 

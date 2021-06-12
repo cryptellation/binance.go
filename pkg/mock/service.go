@@ -1,7 +1,7 @@
 package mock
 
 import (
-	"github.com/cryptellation/binance.go/pkg/interfaces"
+	interfaces "github.com/cryptellation/binance.go/pkg/binance"
 )
 
 // MockedService represents the Binance service mocked

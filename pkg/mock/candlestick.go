@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/cryptellation/binance.go/pkg/interfaces"
+	interfaces "github.com/cryptellation/binance.go/pkg/binance"
 	"github.com/cryptellation/models.go"
 )
 

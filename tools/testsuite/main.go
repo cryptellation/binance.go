@@ -35,12 +35,10 @@ func run() int {
 		return 255
 	}
 
-	if err := runCandlestickTests(conf.API.Key, conf.API.Secret); err != nil {
-		return 255
-	}
+	count := runCandlestickTests(conf.API.Key, conf.API.Secret)
 
 	fmt.Println("Testsuite finished")
-	return 0
+	return count
 }
 
 func main() {
