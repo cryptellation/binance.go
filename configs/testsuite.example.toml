@@ -1,0 +1,5 @@
+[api]
+# Place your binance API key here
+key = ""
+# Place you binance API secret here 
+secret = ""

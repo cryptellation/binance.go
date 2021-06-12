@@ -39,7 +39,7 @@ func TestAddCandleSticks(t *testing.T) {
 
 	// Get candlestick service and get candles
 	css := m.NewCandleStickService()
-	cs, _ := css.Do(context.Background())
+	cs, _ := css.Do(context.TODO())
 
 	// Check candlesticks count
 	if len(cs) != TestCandleSticksCount() {

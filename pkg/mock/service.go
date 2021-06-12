@@ -1,7 +1,7 @@
 package mock
 
 import (
-	binance "github.com/cryptellation/binance.go"
+	"github.com/cryptellation/binance.go/pkg/interfaces"
 )
 
 // MockedService represents the Binance service mocked
@@ -15,7 +15,7 @@ func New() *MockedService {
 }
 
 // NewCandleStickService will create a new candlestick service
-func (m *MockedService) NewCandleStickService() binance.CandleStickServiceInterface {
+func (m *MockedService) NewCandleStickService() interfaces.CandleStickServiceInterface {
 	return newCandleStickservice(m.candleSticks)
 }
 

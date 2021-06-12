@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	binance "github.com/cryptellation/binance.go"
+	"github.com/cryptellation/binance.go/pkg/interfaces"
 	"github.com/cryptellation/models.go"
 )
 
@@ -105,27 +105,27 @@ func (m *CandleStickservice) Do(ctx context.Context) ([]models.CandleStick, erro
 }
 
 // Symbol will specify a symbol for next candlesticks request
-func (m *CandleStickservice) Symbol(symbol string) binance.CandleStickServiceInterface {
+func (m *CandleStickservice) Symbol(symbol string) interfaces.CandleStickServiceInterface {
 	m.symbol = symbol
 	return m
 }
 
 // Period will specify a period for next candlesticks request
-func (m *CandleStickservice) Period(period int64) binance.CandleStickServiceInterface {
+func (m *CandleStickservice) Period(period int64) interfaces.CandleStickServiceInterface {
 	m.period = period
 	return m
 }
 
 // EndTime will specify the time where the list ends (earliest time) for
 // next candlesticks request
-func (m *CandleStickservice) EndTime(endTime time.Time) binance.CandleStickServiceInterface {
+func (m *CandleStickservice) EndTime(endTime time.Time) interfaces.CandleStickServiceInterface {
 	m.endTime = endTime
 	return m
 }
 
 // Limit will specify the number of candlesticks the list should have at its maximum
 // If the limit is higher than the default limit, it will be limited to this one
-func (m *CandleStickservice) Limit(limit int) binance.CandleStickServiceInterface {
+func (m *CandleStickservice) Limit(limit int) interfaces.CandleStickServiceInterface {
 	if limit < DefaultCandleStickServiceLimit {
 		m.limit = limit
 	} else {

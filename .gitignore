@@ -1,0 +1,7 @@
+*.out
+
+testsuite
+!testsuite/
+
+*.toml
+!*.example.toml

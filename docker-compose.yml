@@ -1,0 +1,16 @@
+version: "3.5"
+
+services:
+    integration-tests:
+        image: cryptellation/golang-dev
+        volumes:
+            - .:/code
+        environment: 
+            - DIRECTORY=tools/testsuite
+            - BINARY=testsuite
+        entrypoint: ["bash", "/scripts/hot-reload-run.sh"]
+    unit-tests:
+        image: cryptellation/golang-dev
+        volumes:
+            - .:/code
+        entrypoint: ["bash", "/scripts/hot-reload-tests.sh"]
