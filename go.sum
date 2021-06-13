@@ -4,8 +4,6 @@ github.com/bitly/go-simplejson v0.5.0 h1:6IH+V8/tVMab511d5bn4M7EwGXZf9Hj6i2xSwkN
 github.com/bitly/go-simplejson v0.5.0/go.mod h1:cXHtHw4XUPsvGaxgjIAn8PhEWG9NfngEKAMDJEczWVA=
 github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 h1:DDGfHa7BWjL4YnC6+E63dPcxHo2sUxDIu8g3QgEJdRY=
 github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869/go.mod h1:Ekp36dRnpXw/yCqJaO+ZrUyxD+3VXMFFr56k5XYrpB4=
-github.com/cryptellation/models.go v0.0.0-20210612063951-6028a5ff392b h1:Z5ex0ctQSbmhgnqVE8FOnl07m6LbiH3nwGe3z1e4bVw=
-github.com/cryptellation/models.go v0.0.0-20210612063951-6028a5ff392b/go.mod h1:QVakm9Ias8780XXKOQAjoacKCpvN5xxUIo7UP42rpPA=
 github.com/cryptellation/models.go v1.1.0 h1:coXUQzQm60oIP2WGlF/cUCPV2zBwwy3fllrRC0HkA2E=
 github.com/cryptellation/models.go v1.1.0/go.mod h1:QVakm9Ias8780XXKOQAjoacKCpvN5xxUIo7UP42rpPA=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=

@@ -54,11 +54,11 @@ type CandleSticks struct {
 type CandleStickservice struct {
 	candleSticks []CandleSticks
 
-	// Next request specifications
 	symbol  string
 	period  int64
 	endTime time.Time
 	limit   int
+	err     error
 }
 
 func newCandleStickservice(cs []CandleSticks) *CandleStickservice {
@@ -72,6 +72,11 @@ func newCandleStickservice(cs []CandleSticks) *CandleStickservice {
 func (m *CandleStickservice) Do(ctx context.Context) ([]models.CandleStick, error) {
 	cs := make([]models.CandleStick, 0)
 	count := 0
+
+	if m.err != nil {
+		return cs, m.err
+	}
+
 	for _, t := range m.candleSticks {
 		// Check if symbol is set and correspond
 		if m.symbol != "" && t.Symbol != m.symbol {
@@ -132,4 +137,10 @@ func (m *CandleStickservice) Limit(limit int) interfaces.CandleStickServiceInter
 		m.limit = DefaultCandleStickServiceLimit
 	}
 	return m
+}
+
+// SetError will set an error that will be raised each time a Do() is executed
+// You can set it at nil if you want to deactivate it
+func (m *CandleStickservice) SetError(err error) {
+	m.err = err
 }
