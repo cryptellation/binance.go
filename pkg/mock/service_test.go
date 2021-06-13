@@ -2,6 +2,7 @@ package mock
 
 import (
 	"context"
+	"errors"
 	"testing"
 )
 
@@ -14,7 +15,7 @@ func TestNewService(t *testing.T) {
 	}
 }
 
-func TestNewCandleStickservice(t *testing.T) {
+func TestNewCandleStickService(t *testing.T) {
 	// Create a mock service
 	m := New()
 
@@ -25,38 +26,39 @@ func TestNewCandleStickservice(t *testing.T) {
 	}
 
 	// Check type
-	if _, ok := s.(*CandleStickservice); !ok {
+	if _, ok := s.(*CandleStickService); !ok {
 		t.Fatal("Service is not the good type")
 	}
 }
 
 func TestAddCandleSticks(t *testing.T) {
-	// Create a new mock service
 	m := New()
-
-	// Add candlesticks
 	m.AddCandleSticks(TestCandleSticks)
 
-	// Get candlestick service and get candles
 	css := m.NewCandleStickService()
 	cs, _ := css.Do(context.TODO())
 
-	// Check candlesticks count
 	if len(cs) != TestCandleSticksCount() {
 		t.Fatal("There should be", TestCandleSticksCount(), "candlesticks, but there is", len(cs))
 	}
 
-	// Test first case
 	for i, c := range TestCandleSticks[0].CandleSticks {
 		if c != cs[i] {
 			t.Error("Candlesticks", i, "don't correspond")
 		}
 	}
 
-	// Test second case
 	for i, c := range TestCandleSticks[1].CandleSticks {
 		if c != cs[i+2] {
 			t.Error("Candlesticks", i, "don't correspond")
 		}
+	}
+}
+
+func TestNextError(t *testing.T) {
+	m := New()
+	m.NextError(errors.New("Some error"))
+	if _, err := m.NewCandleStickService().Do(context.TODO()); err == nil {
+		t.Error("There should be an error on candlestick service")
 	}
 }

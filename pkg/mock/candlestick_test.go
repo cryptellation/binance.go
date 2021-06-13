@@ -10,7 +10,7 @@ import (
 )
 
 func TestMockedDo(t *testing.T) {
-	s := newCandleStickservice(TestCandleSticks)
+	s := newCandleStickService(TestCandleSticks)
 
 	cs, _ := s.Do(context.TODO())
 	if len(cs) != TestCandleSticksCount() {
@@ -31,7 +31,7 @@ func TestMockedDo(t *testing.T) {
 }
 
 func TestMockedDo_NoData(t *testing.T) {
-	s := newCandleStickservice(nil)
+	s := newCandleStickService(nil)
 
 	cs, _ := s.Do(context.TODO())
 	if len(cs) != 0 {
@@ -45,7 +45,7 @@ func TestMockedDo_DefaultLimit(t *testing.T) {
 		localTest[0].CandleSticks = append(localTest[0].CandleSticks, models.CandleStick{})
 	}
 
-	s := newCandleStickservice(localTest)
+	s := newCandleStickService(localTest)
 
 	cs, _ := s.Do(context.TODO())
 	if len(cs) != DefaultCandleStickServiceLimit {
@@ -54,7 +54,7 @@ func TestMockedDo_DefaultLimit(t *testing.T) {
 }
 
 func TestMockedSymbolDo(t *testing.T) {
-	s := newCandleStickservice(TestCandleSticks)
+	s := newCandleStickService(TestCandleSticks)
 
 	cs, _ := s.Symbol("BTC-USDC").Do(context.TODO())
 	if len(cs) != 4 {
@@ -69,7 +69,7 @@ func TestMockedSymbolDo(t *testing.T) {
 }
 
 func TestMockedIntervalDo(t *testing.T) {
-	s := newCandleStickservice(TestCandleSticks)
+	s := newCandleStickService(TestCandleSticks)
 
 	cs, _ := s.Period(models.M5).Do(context.TODO())
 	if len(cs) != 4 {
@@ -84,7 +84,7 @@ func TestMockedIntervalDo(t *testing.T) {
 }
 
 func TestMockedEndTimeDo(t *testing.T) {
-	s := newCandleStickservice(TestCandleSticks)
+	s := newCandleStickService(TestCandleSticks)
 
 	cs, _ := s.EndTime(time.Unix(1257893900, 0)).Do(context.TODO())
 	if len(cs) != 4 {
@@ -99,7 +99,7 @@ func TestMockedEndTimeDo(t *testing.T) {
 }
 
 func TestMockedLimitDo(t *testing.T) {
-	s := newCandleStickservice(TestCandleSticks)
+	s := newCandleStickService(TestCandleSticks)
 
 	cs, _ := s.Limit(4).Do(context.TODO())
 	if len(cs) != 4 {
@@ -113,7 +113,7 @@ func TestMockedLimitDo_DefaultLimitTrespassed(t *testing.T) {
 		localTest[0].CandleSticks = append(localTest[0].CandleSticks, models.CandleStick{})
 	}
 
-	s := newCandleStickservice(localTest)
+	s := newCandleStickService(localTest)
 
 	cs, _ := s.Limit(2000).Do(context.TODO())
 	if len(cs) != DefaultCandleStickServiceLimit {
@@ -122,7 +122,7 @@ func TestMockedLimitDo_DefaultLimitTrespassed(t *testing.T) {
 }
 
 func TestMockedAllDo(t *testing.T) {
-	s := newCandleStickservice(TestCandleSticks)
+	s := newCandleStickService(TestCandleSticks)
 
 	tm := time.Unix(1257894200, 0)
 	cs, _ := s.Symbol("BTC-USDC").Period(models.M5).EndTime(tm).Limit(1).Do(context.TODO())
@@ -137,7 +137,7 @@ func TestMockedAllDo(t *testing.T) {
 }
 
 func TestMockedDo_Error(t *testing.T) {
-	s := newCandleStickservice(TestCandleSticks)
+	s := newCandleStickService(TestCandleSticks)
 	s.SetError(errors.New("Some Error"))
 
 	tm := time.Unix(1257894200, 0)

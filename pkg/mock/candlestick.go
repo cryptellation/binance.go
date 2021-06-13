@@ -50,8 +50,8 @@ type CandleSticks struct {
 	CandleSticks []models.CandleStick
 }
 
-// CandleStickservice is the mocked service for candlesticks
-type CandleStickservice struct {
+// CandleStickService is the mocked service for candlesticks
+type CandleStickService struct {
 	candleSticks []CandleSticks
 
 	symbol  string
@@ -61,15 +61,15 @@ type CandleStickservice struct {
 	err     error
 }
 
-func newCandleStickservice(cs []CandleSticks) *CandleStickservice {
-	return &CandleStickservice{
+func newCandleStickService(cs []CandleSticks) *CandleStickService {
+	return &CandleStickService{
 		candleSticks: cs,
 		limit:        DefaultCandleStickServiceLimit,
 	}
 }
 
 // Do will execute a request for candlesticks
-func (m *CandleStickservice) Do(ctx context.Context) ([]models.CandleStick, error) {
+func (m *CandleStickService) Do(ctx context.Context) ([]models.CandleStick, error) {
 	cs := make([]models.CandleStick, 0)
 	count := 0
 
@@ -110,27 +110,27 @@ func (m *CandleStickservice) Do(ctx context.Context) ([]models.CandleStick, erro
 }
 
 // Symbol will specify a symbol for next candlesticks request
-func (m *CandleStickservice) Symbol(symbol string) interfaces.CandleStickServiceInterface {
+func (m *CandleStickService) Symbol(symbol string) interfaces.CandleStickServiceInterface {
 	m.symbol = symbol
 	return m
 }
 
 // Period will specify a period for next candlesticks request
-func (m *CandleStickservice) Period(period int64) interfaces.CandleStickServiceInterface {
+func (m *CandleStickService) Period(period int64) interfaces.CandleStickServiceInterface {
 	m.period = period
 	return m
 }
 
 // EndTime will specify the time where the list ends (earliest time) for
 // next candlesticks request
-func (m *CandleStickservice) EndTime(endTime time.Time) interfaces.CandleStickServiceInterface {
+func (m *CandleStickService) EndTime(endTime time.Time) interfaces.CandleStickServiceInterface {
 	m.endTime = endTime
 	return m
 }
 
 // Limit will specify the number of candlesticks the list should have at its maximum
 // If the limit is higher than the default limit, it will be limited to this one
-func (m *CandleStickservice) Limit(limit int) interfaces.CandleStickServiceInterface {
+func (m *CandleStickService) Limit(limit int) interfaces.CandleStickServiceInterface {
 	if limit < DefaultCandleStickServiceLimit {
 		m.limit = limit
 	} else {
@@ -141,6 +141,6 @@ func (m *CandleStickservice) Limit(limit int) interfaces.CandleStickServiceInter
 
 // SetError will set an error that will be raised each time a Do() is executed
 // You can set it at nil if you want to deactivate it
-func (m *CandleStickservice) SetError(err error) {
+func (m *CandleStickService) SetError(err error) {
 	m.err = err
 }
